@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  meal-service:
+    build: ./meal-server
+    restart: always
+    volumes:
+      - type: bind
+        source: ./meal-server # host directory
+        target: /meal-server # container directory
+    environment:
+      - DIET_SERVICE=http://diet-service:8002
+      - FLASK_DEBUG=true
+      - USE_RELOADER=false
+    ports:
+      - "5001:8001" # host:container
+    expose:
+      - 8001
+    depends_on:
+      - mongo
+      - diet-service
+
+  diet-service:
+    build: ./diet-server
+    restart: always
+    volumes:
+      - type: bind
+        source: ./diet-server
+        target: /diet-server
+    environment:
+      - FLASK_DEBUG=true
+      - USE_RELOADER=false
+    ports:
+      - "5002-5003:8002" # host:container
+    deploy:
+      replicas: 2
+    expose:
+      - 8002
+    depends_on:
+      - mongo
+
+  reverse:
+    build: ./reverse
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - mongo
+      - diet-service
+      - meal-service
+
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
