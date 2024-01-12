@@ -1,7 +1,7 @@
 # FeedMe Server
 
 **🍜🥦 Nourishment RESTful API - Providing High Availability**  
-Check out the [API documentation](/api.md)
+Check out the [API documentation](/api.md)  
 <img width="612" alt="FeedMe-HA-Architecture" src="https://github.com/OferPeery/feedme-high-availability/assets/90853508/ea903b1f-db15-40be-bd20-bb2383ba0a32">
 
 ## Versions
